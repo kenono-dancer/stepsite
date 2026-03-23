@@ -1,0 +1,105 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead
+      title="荏原第一区民集会所 | 競技志向社交ダンスサークル"
+      description="武蔵小山駅前・シティタワー武蔵小山2Fの荏原第一区民集会所へのアクセスと道順"
+    />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <article class="venue-page">
+        <h1>荏原第一区民集会所　／武蔵小山駅前の新しいビルの中です！東口を出て右手の2棟目の大きなビルです。</h1>
+
+        <section>
+          <h2>荏原第一区民集会所について</h2>
+          <p>荏原第一区民集会所は、荏原第一地域センターに併設された公共施設です。</p>
+          <p>駅前にそびえ立つ2つの高層マンションの左側の建物で、サークルでは第1集会室を使っています。</p>
+          <p>荏原第一区民集会所は、2021年秋から武蔵小山駅前に移転しました。</p>
+          <p>
+            <strong>住所：</strong>東京都品川区小山3-14-1（シティタワー武蔵小山商業施設棟2F）<br>
+            <strong>電話：</strong>03-3786-2000（併設の荏原第一区民センター宛）
+          </p>
+        </section>
+
+        <section>
+          <h2>地図と道順</h2>
+          <p>武蔵小山駅東口を出て左に曲がり、タリーズを横目に見ながら進んでください。<br>
+          1分ほどで着く2つ目の新しいビルです。</p>
+          <p>※注 駅を出て目の前のビルではありません。</p>
+          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d533.6154896297966!2d139.70568377134066!3d35.62098376850587!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x60188adaffffffff%3A0x61612590aed2f289!2z5ZOB5bed5Yy6IOiNj-WOn-esrOS4gOWcsOWfn-OCu-ODs-OCv-ODvA!5e1!3m2!1sja!2sjp!4v1774189182399!5m2!1sja!2sjp" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </section>
+
+        <section>
+          <h2>全体図</h2>
+          <img src="/assets/images/2021/10/new-ebaradaiichi.jpg" alt="荏原第一区民集会所 全体図" />
+        </section>
+
+        <section>
+          <h2>道のり</h2>
+          <ol>
+            <li>
+              <p>東口を出て<strong>左へ</strong>曲がり、駅沿いに100m歩きます。<br>
+              （写真の左に見えているのが駅ビルとエスカレータを登ってきた東口の出口です）</p>
+              <img src="/assets/images/2021/10/668AF0AA-768x1024.jpeg" alt="東口を出て左へ" />
+            </li>
+            <li>
+              <p>左にタリーズ（駅ビル内）、右にローソンがある道を直進</p>
+              <img src="/assets/images/2021/10/54D81840-768x1024.jpeg" alt="タリーズとローソンの間を直進" />
+            </li>
+            <li>
+              <p>この写真のシティータワー武蔵小山の中に、荏原第一区民集会所があります。</p>
+              <img src="/assets/images/2021/10/IMG_8407.jpg" alt="シティータワー武蔵小山" />
+            </li>
+            <li>
+              <p>この写真の正面に見える階段（エスカレーター付）を登った2階の右手奥が荏原第一区民集会所です。</p>
+              <img src="/assets/images/2021/12/ebara-dai1.jpg" alt="荏原第一区民集会所 入口" />
+              <p>駅徒歩1,2分です。</p>
+            </li>
+          </ol>
+        </section>
+
+        <section>
+          <h2>中の様子</h2>
+          <p>第一集会室は、広々した綺麗なお部屋です。<br>
+          窓はありませんが、換気専用の空調機器３つと3箇所のドアで換気ができるようになっています。<br>
+          テーブルと椅子を片付けて使ってます。</p>
+        </section>
+
+        <p><a href="/">&larr; トップページへ戻る</a></p>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2em 1em 4em;
+  }
+  .venue-page h1 {
+    font-size: 1.3rem;
+    line-height: 1.6;
+    border-left: 4px solid var(--accent);
+    padding-left: 0.6em;
+    margin-bottom: 1.5em;
+  }
+  h2 {
+    font-size: 1.15rem;
+    border-bottom: 2px solid #e5e7ef;
+    padding-bottom: 0.3em;
+    margin: 2em 0 0.8em;
+  }
+  ol { padding-left: 1.5em; }
+  ol li { margin-bottom: 1.5em; }
+  img { max-width: 100%; border-radius: 8px; margin: 0.5em 0; }
+</style>

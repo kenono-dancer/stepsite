@@ -1,0 +1,239 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+
+type Props = CollectionEntry<'blog'>['data'] & { id: string };
+
+const { title, description, pubDate, updatedDate, image, id } = Astro.props;
+
+// Get all posts sorted by date
+const allPosts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+// Find current post index
+const currentIndex = allPosts.findIndex(post => post.id === id);
+const prevPost = currentIndex > 0 ? allPosts[currentIndex - 1] : null;
+const nextPost = currentIndex < allPosts.length - 1 ? allPosts[currentIndex + 1] : null;
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.');
+}
+---
+
+<html lang="en">
+	<head>
+		<BaseHead title={title} description={description} />
+		<style>
+			main {
+				width: calc(100% - 2em);
+				max-width: 1200px;
+				margin: 0 auto;
+				padding: 1em;
+			}
+			.container {
+				display: grid;
+				grid-template-columns: 1fr 280px;
+				gap: 2em;
+			}
+			.hero-image {
+				width: 100%;
+			}
+			.hero-image img {
+				display: block;
+				margin: 0 auto;
+				border-radius: 12px;
+				box-shadow: var(--box-shadow);
+			}
+			.prose {
+				width: 100%;
+				color: rgb(var(--gray-dark));
+			}
+			.title {
+				margin-bottom: 1em;
+				padding: 1em 0;
+				text-align: center;
+				line-height: 1;
+			}
+			.title h1 {
+				margin: 0 0 0.5em 0;
+				font-size: 2em;
+			}
+			.date {
+				margin-bottom: 0.5em;
+				color: rgb(var(--gray));
+			}
+			.last-updated-on {
+				font-style: italic;
+			}
+
+			/* Navigation */
+			.post-nav {
+				margin-top: 3em;
+				padding-top: 2em;
+				border-top: 1px solid rgb(var(--gray-light));
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 2em;
+			}
+			.nav-item {
+				text-align: center;
+			}
+			.nav-item a {
+				display: block;
+				color: var(--accent);
+				text-decoration: none;
+				font-weight: 600;
+				transition: opacity 0.2s ease;
+			}
+			.nav-item a:hover {
+				opacity: 0.8;
+			}
+			.nav-label {
+				font-size: 0.9em;
+				color: rgb(var(--gray));
+				margin-bottom: 0.5em;
+				display: block;
+			}
+			.nav-title {
+				font-size: 1em;
+				color: #333;
+				margin-top: 0.5em;
+			}
+
+			/* Sidebar */
+			.sidebar {
+				padding-left: 1em;
+				border-left: 1px solid rgb(var(--gray-light));
+			}
+			.sidebar-title {
+				font-size: 1.2em;
+				font-weight: 600;
+				margin-bottom: 1em;
+				color: #333;
+				border-bottom: 2px solid var(--accent);
+				padding-bottom: 0.5em;
+			}
+			.sidebar-list {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+			.sidebar-item {
+				margin-bottom: 1em;
+				padding-bottom: 1em;
+				border-bottom: 1px solid rgb(var(--gray-light));
+			}
+			.sidebar-item:last-child {
+				border-bottom: none;
+				margin-bottom: 0;
+				padding-bottom: 0;
+			}
+			.sidebar-link {
+				color: var(--accent);
+				text-decoration: none;
+				font-size: 0.95em;
+				display: block;
+				line-height: 1.4;
+				transition: color 0.2s ease;
+			}
+			.sidebar-link:hover {
+				color: #2563eb;
+				text-decoration: underline;
+			}
+			.sidebar-date {
+				font-size: 0.85em;
+				color: rgb(var(--gray));
+				margin-top: 0.3em;
+			}
+
+			@media (max-width: 1024px) {
+				.container {
+					grid-template-columns: 1fr;
+				}
+				.sidebar {
+					border-left: none;
+					border-top: 1px solid rgb(var(--gray-light));
+					padding-left: 0;
+					padding-top: 2em;
+				}
+				.post-nav {
+					grid-template-columns: 1fr;
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<Header />
+		<main>
+			<article>
+				<div class="hero-image">
+					{image && <img width={1020} src={image.url} alt={image.alt ?? title} style="height:auto;border-radius:12px;box-shadow:var(--box-shadow);display:block;margin:0 auto;" />}
+				</div>
+				<div class="container">
+					<div class="prose">
+						<div class="title">
+							<div class="date">
+								<FormattedDate date={pubDate} />
+								{
+									updatedDate && (
+										<div class="last-updated-on">
+											Last updated on <FormattedDate date={updatedDate} />
+										</div>
+									)
+								}
+							</div>
+							<h1>{title}</h1>
+							<hr />
+						</div>
+						<slot />
+
+						{/* Previous/Next Navigation */}
+						<div class="post-nav">
+							<div class="nav-item">
+								{prevPost ? (
+									<a href={`/blog/${prevPost.id}/`}>
+										<span class="nav-label">← 前の記事</span>
+										<span class="nav-title">{prevPost.data.title}</span>
+									</a>
+								) : (
+									<span style="color: rgb(var(--gray));">前の記事はありません</span>
+								)}
+							</div>
+							<div class="nav-item">
+								{nextPost ? (
+									<a href={`/blog/${nextPost.id}/`}>
+										<span class="nav-label">次の記事 →</span>
+										<span class="nav-title">{nextPost.data.title}</span>
+									</a>
+								) : (
+									<span style="color: rgb(var(--gray));">次の記事はありません</span>
+								)}
+							</div>
+						</div>
+					</div>
+
+					{/* Sidebar with Article List */}
+					<aside class="sidebar">
+						<div class="sidebar-title">各回のテーマ</div>
+						<ul class="sidebar-list">
+							{allPosts.map(post => (
+								<li class="sidebar-item">
+									<a href={`/blog/${post.id}/`} class="sidebar-link">
+										{post.data.title}
+									</a>
+								</li>
+							))}
+						</ul>
+					</aside>
+				</div>
+			</article>
+		</main>
+		<Footer />
+	</body>
+</html>

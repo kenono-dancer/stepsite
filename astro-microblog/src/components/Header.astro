@@ -1,0 +1,177 @@
+---
+import { SITE_TITLE } from '../consts';
+import HeaderLink from './HeaderLink.astro';
+---
+
+<header class="site-header">
+	<div class="header-inner">
+		<h1 class="site-title"><a href="/">{SITE_TITLE}</a></h1>
+	</div>
+</header>
+<nav class="global-nav">
+	<div class="nav-inner">
+		<button class="hamburger-btn" aria-label="メニュー">
+			<span></span>
+			<span></span>
+			<span></span>
+		</button>
+		<div class="nav-menu">
+			<HeaderLink href="/">ホーム</HeaderLink>
+			<a href="/#schedule">開催日時と場所</a>
+			<a href="/#fee">参加費</a>
+			<a href="/#instructor">講師</a>
+			<a href="/#contact">連絡先</a>
+			<a href="/#themes">各回のテーマ</a>
+			<HeaderLink href="/blog">記事一覧</HeaderLink>
+		</div>
+	</div>
+</nav>
+
+<style>
+	.site-header {
+		background-image: url('/assets/images/header-dance_scene.jpeg');
+		background-size: cover;
+		background-position: center;
+		min-height: 200px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		position: relative;
+	}
+	.site-header::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: rgba(0,0,0,0.35);
+	}
+	.header-inner {
+		position: relative;
+		z-index: 1;
+		text-align: center;
+		padding: 2em 1em;
+	}
+	.site-title {
+		margin: 0;
+		font-size: 2rem;
+	}
+	.site-title a {
+		color: #fff;
+		text-decoration: none;
+		text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+		font-weight: 700;
+		letter-spacing: 0.05em;
+	}
+	.global-nav {
+		background: #f4f4f4;
+		border-bottom: 1px solid #ddd;
+		position: relative;
+		z-index: 100;
+	}
+	.nav-inner {
+		max-width: 860px;
+		margin: 0 auto;
+		padding: 0 1em;
+		display: flex;
+		gap: 0.5em;
+		align-items: center;
+		position: relative;
+	}
+	.hamburger-btn {
+		display: none;
+		flex-direction: column;
+		gap: 5px;
+		background: none;
+		border: none;
+		cursor: pointer;
+		padding: 0.5em;
+		margin-left: auto;
+	}
+	.hamburger-btn span {
+		width: 25px;
+		height: 3px;
+		background: #333;
+		transition: all 0.3s ease;
+		display: block;
+	}
+	.hamburger-btn.active span:nth-child(1) {
+		transform: rotate(45deg) translate(8px, 8px);
+	}
+	.hamburger-btn.active span:nth-child(2) {
+		opacity: 0;
+	}
+	.hamburger-btn.active span:nth-child(3) {
+		transform: rotate(-45deg) translate(8px, -8px);
+	}
+	.nav-menu {
+		display: flex;
+		gap: 0.5em;
+		flex: 1;
+	}
+	.nav-menu a {
+		display: block;
+		padding: 0.7em 1em;
+		color: #333;
+		text-decoration: none;
+		font-size: 0.9rem;
+		border-bottom: 3px solid transparent;
+	}
+	.nav-menu a:hover,
+	.nav-menu a.active {
+		border-bottom-color: var(--accent);
+		color: var(--accent);
+	}
+	@media (max-width: 768px) {
+		.site-title { font-size: 1.4rem; }
+		.site-header { min-height: 140px; }
+		.hamburger-btn {
+			display: flex;
+			order: 2;
+		}
+		.nav-menu {
+			position: absolute;
+			top: 100%;
+			right: 0;
+			left: 0;
+			flex-direction: column;
+			background: #f4f4f4;
+			border-top: 1px solid #ddd;
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.3s ease;
+			gap: 0;
+			flex: none;
+			z-index: 101;
+		}
+		.nav-menu.active {
+			max-height: 500px;
+		}
+		.nav-menu a {
+			padding: 1em;
+			border-bottom: 1px solid #eee;
+		}
+		.nav-inner {
+			flex-wrap: wrap;
+		}
+	}
+</style>
+
+<script>
+	const hamburgerBtn = document.querySelector('.hamburger-btn');
+	const navMenu = document.querySelector('.nav-menu');
+
+	if (hamburgerBtn && navMenu) {
+		hamburgerBtn.addEventListener('click', () => {
+			hamburgerBtn.classList.toggle('active');
+			navMenu.classList.toggle('active');
+		});
+
+		// Close menu when a link is clicked
+		const navLinks = navMenu.querySelectorAll('a');
+		navLinks.forEach(link => {
+			link.addEventListener('click', () => {
+				hamburgerBtn.classList.remove('active');
+				navMenu.classList.remove('active');
+			});
+		});
+	}
+</script>

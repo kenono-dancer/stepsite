@@ -1,0 +1,19 @@
+# dependencies
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# production
+dist/
+
+# misc
+.DS_Store
+*.env
+*.env.local
+*.env.*.local
+.vscode/
+.idea/
+
+# astro
+.astro/

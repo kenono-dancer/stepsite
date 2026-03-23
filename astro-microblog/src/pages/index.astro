@@ -1,0 +1,216 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const posts = (await getCollection('blog')).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.');
+}
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <article class="circle-info">
+
+        <p>競技志向社交ダンスサークルは、<strong>東京都品川区</strong>を中心に活動している<strong>スタンダード専門社交ダンスサークル</strong>です。</p>
+
+        <h2 id="schedule">開催日時と場所</h2>
+        <p class="schedule-note">第1,3,5火曜日 18:50〜20:10<br>17:50open　21:00 close / 前後練習できます。</p>
+        <p class="indent">
+          2/3（火）お休み<br>
+          2/17（火）<a href="/ebara-2/">荏原第二区民集会所</a><br>
+          3/3（火）<a href="/ebara-1/">荏原第一区民集会所</a><br>
+          3/17（火）<a href="/ebara-2/">荏原第二区民集会所</a><br>
+          3/31（火）<a href="/ebara-1/">荏原第一区民集会所</a><br>
+          4/7（火）<a href="/ebara-1/">荏原第一区民集会所</a><br>
+          4/21（火）<a href="/ebara-1/">荏原第一区民集会所</a><br>
+          5/19（火）<a href="/ebara-1/">荏原第一地域集会所</a><br>
+          ※5/5は施設の都合によりお休みになります。
+        </p>
+
+        <h2 id="fee">参加費</h2>
+        <div class="info-box">
+          <strong>➔入会金不要</strong><br>
+          入会手続きもありません。<br>
+          気になるテーマ、都合の良いときだけの参加もOKです。
+        </div>
+        <div class="info-box">
+          <strong>➔1回払い</strong>と<strong>お得な月払い</strong>を選べます。<br>
+          <span class="underline">1回払いは、1回あたり2,000円</span><br>
+          <span class="underline">月払いは、月2回分で3,000円</span><br>
+          （火曜が3回ある月は、月3回分で4,500円）
+        </div>
+
+        <h2>こんな方を対象にしています</h2>
+        <p>しっかり理論を学び、その練習をしたい。そんな方のためのサークルです。<br>
+        ダンスが初めての方だと厳しいですが、基本的にどんな方でも歓迎です。参加者は毎回10〜20名程度 半数以上がシャドーの方です。シャドーで練習をした後に、私も一緒に組んで踊ります。4,5組ごとに踊ってる様子を撮影して改善点を指摘してゆくので、ちゃんと出来ているのかも確認も出来て、撮影したビデオもお渡しするので、サークル後の復習にも役立てられます。</p>
+        <p>毎回のテーマは、<a href="https://itxdancer.com" target="_blank">オンライン社交ダンスセミナー</a>とリンクしているので、オンラインで学んだことの実践にも活用いただけます。</p>
+
+        <h2 id="instructor">講師プロフィール</h2>
+        <div class="profile-wrap">
+          <div class="profile-photo">
+            <img src="/assets/images/kenono.jpg" alt="大埜 健" width="227" height="300" />
+            <p>大埜 健<br>（おおの けん）</p>
+          </div>
+          <div class="profile-text">
+            <p>JBDF東部総局 プロスタンダード 元A級<br>
+            JBDF JDSF 元アマ全日本ファイナリスト</p>
+            <p>2008年〜<br>
+            <a href="https://shinodadc.net" target="_blank">篠田忠ダンスカレッジ</a>勤務<br>
+            競技志向社交ダンスサークル開始</p>
+            <p>2020年〜<a href="https://itxdancer.com/tag/dance-seminar/" target="_blank">オンライン社交ダンスセミナー</a>開始<br>
+            ※毎週水曜土曜の夜Zoomで開催。</p>
+            <p>競技実績：学連で競技ダンスを始め、アマチュアで10年、プロとして10年間以上競技会に出てきました。</p>
+            <p>師事：国内外のWDC、WDSF双方の先生にレッスンを受け、沢山の理論を学んできました。</p>
+            <p>現在：2018年に競技を引退後、指導者として勉強を続けています。自分が遠回りしてきた分、皆さんが最短で上達できるように、理論的な指導を心がけています。</p>
+          </div>
+        </div>
+
+        <h2 id="contact">連絡先</h2>
+        <ul>
+          <li>
+            <a href="mailto:narutaku@yahoo.co.jp">narutaku@yahoo.co.jp</a><br>
+            お気軽にご連絡ください。<br>
+            直接お越しいただいてもOKです。
+          </li>
+        </ul>
+
+        <h2 id="themes">各回のテーマ</h2>
+        <ul class="post-list">
+          {posts.map(post => (
+            <li>
+              <a href={`/blog/${post.id}/`}>
+                {post.data.image && (
+                  <img
+                    src={post.data.image.url}
+                    alt={post.data.image.alt || post.data.title}
+                    class="thumb"
+                    loading="lazy"
+                  />
+                )}
+                <span class="post-title">{post.data.title}</span>
+                <span class="post-date">{fmtDate(post.data.pubDate)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 2em 1em 4em;
+  }
+  .circle-info {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  h2 {
+    font-size: 1.4rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 0.6em;
+    margin: 2em 0 0.8em;
+  }
+  .schedule-note {
+    margin: 0.4em 0 0.8em;
+    line-height: 1.7;
+  }
+  .indent {
+    padding-left: 1.5em;
+  }
+  .info-box {
+    background: #eef4ff;
+    border-left: 4px solid #5b8dee;
+    padding: 0.8em 1.2em;
+    margin: 0.6em 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 0.95rem;
+  }
+  .underline { text-decoration: underline; }
+
+  /* 講師プロフィール */
+  .profile-wrap {
+    display: flex;
+    gap: 1.5em;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .profile-photo {
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .profile-photo img {
+    width: 180px;
+    height: auto;
+    border-radius: 6px;
+  }
+  .profile-photo p {
+    margin: 0.4em 0 0;
+    font-size: 0.9rem;
+    font-weight: bold;
+  }
+  .profile-text { flex: 1; min-width: 240px; }
+  .profile-text p { margin: 0.5em 0; font-size: 0.95rem; }
+
+  /* 記事一覧 */
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .post-list li {
+    border-bottom: 1px solid #e5e7ef;
+  }
+  .post-list li a {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    padding: 0.7em 0.3em;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+  }
+  .post-list li a:hover {
+    background: #f5f7ff;
+  }
+  .thumb {
+    width: 80px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .post-title {
+    flex: 1;
+    font-size: 0.95rem;
+    color: #1a1a2e;
+  }
+  .post-date {
+    font-size: 0.82rem;
+    color: #888;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  @media (max-width: 600px) {
+    .profile-photo img { width: 130px; }
+    .thumb { width: 60px; height: 40px; }
+  }
+</style>
