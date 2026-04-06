@@ -35,6 +35,7 @@ body {
 	margin: 0;
 	padding: 0;
 	text-align: left;
+	overflow-x: hidden;
 	background: linear-gradient(var(--gray-gradient)) no-repeat;
 	background-size: 100% 600px;
 	word-wrap: break-word;
