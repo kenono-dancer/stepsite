@@ -12,6 +12,16 @@ const posts = (await getCollection('blog')).sort(
 function fmtDate(d: Date) {
   return d.toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.');
 }
+
+const postsByYear = posts.reduce((acc, post) => {
+  const year = post.data.pubDate.getFullYear().toString();
+  if (!acc[year]) acc[year] = [];
+  acc[year].push(post);
+  return acc;
+}, {} as Record<string, typeof posts>);
+
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
+const latestYear = years[0];
 ---
 
 <!doctype html>
@@ -89,24 +99,31 @@ function fmtDate(d: Date) {
         </ul>
 
         <h2 id="themes">各回のテーマ</h2>
-        <ul class="post-list">
-          {posts.map(post => (
-            <li>
-              <a href={`/blog/${post.id}/`}>
-                {post.data.image && (
-                  <img
-                    src={post.data.image.url}
-                    alt={post.data.image.alt || post.data.title}
-                    class="thumb"
-                    loading="lazy"
-                  />
-                )}
-                <span class="post-title">{post.data.title}</span>
-                <span class="post-date">{fmtDate(post.data.pubDate)}</span>
-              </a>
-            </li>
+        <div class="year-nav">
+          {years.map(year => (
+            <button class={`year-btn${year === latestYear ? ' active' : ''}`} data-year={year}>{year}</button>
           ))}
-        </ul>
+        </div>
+        {years.map(year => (
+          <ul class="post-list" data-year-list={year} style={year !== latestYear ? 'display:none' : ''}>
+            {postsByYear[year].map(post => (
+              <li>
+                <a href={`/blog/${post.id}/`}>
+                  {post.data.image && (
+                    <img
+                      src={post.data.image.url}
+                      alt={post.data.image.alt || post.data.title}
+                      class="thumb"
+                      loading="lazy"
+                    />
+                  )}
+                  <span class="post-title">{post.data.title}</span>
+                  <span class="post-date">{fmtDate(post.data.pubDate)}</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        ))}
 
       </article>
     </main>
@@ -212,8 +229,50 @@ function fmtDate(d: Date) {
     white-space: nowrap;
     flex-shrink: 0;
   }
+  /* 年別ナビ */
+  .year-nav {
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+  }
+  .year-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.3em 0.6em;
+    font-size: 0.95rem;
+    color: #555;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .year-btn:hover {
+    color: var(--accent);
+  }
+  .year-btn.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+
   @media (max-width: 600px) {
     .profile-photo img { width: 130px; }
     .thumb { width: 60px; height: 40px; }
   }
 </style>
+
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('.year-btn');
+  const lists = document.querySelectorAll<HTMLElement>('[data-year-list]');
+
+  btns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const year = btn.dataset.year;
+      btns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      lists.forEach(list => {
+        list.style.display = list.dataset.yearList === year ? '' : 'none';
+      });
+    });
+  });
+</script>
