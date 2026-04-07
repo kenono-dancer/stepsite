@@ -1,0 +1,172 @@
+---
+import { getCollection } from 'astro:content';
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { SITE_TITLE } from '../../consts';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+
+  const postsByYear = posts.reduce((acc, post) => {
+    const year = post.data.pubDate.getFullYear().toString();
+    if (!acc[year]) acc[year] = [];
+    acc[year].push(post);
+    return acc;
+  }, {} as Record<string, typeof posts>);
+
+  const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
+  const latestYear = years[0];
+
+  return years.slice(1).map(year => ({
+    params: { year },
+    props: {
+      year,
+      years,
+      latestYear,
+      yearPosts: postsByYear[year].sort(
+        (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+      ),
+    },
+  }));
+}
+
+const { year, years, latestYear, yearPosts } = Astro.props;
+
+function fmtDate(d: Date) {
+  return d.toLocaleDateString('ja-JP', { year: 'numeric', month: '2-digit', day: '2-digit' }).replace(/\//g, '.');
+}
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <BaseHead
+      title={`${year}年のテーマ一覧 | ${SITE_TITLE}`}
+      description={`競技志向社交ダンスサークル ${year}年の各回テーマ一覧`}
+    />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <article class="circle-info">
+        <h2 id="themes">各回のテーマ</h2>
+        <nav class="year-nav">
+          <a href="/#themes" class="year-link">{latestYear}</a>
+          {years.slice(1).map(y => (
+            y === year
+              ? <span class="year-link active">{y}</span>
+              : <a href={`/themes/${y}/`} class="year-link">{y}</a>
+          ))}
+        </nav>
+        <ul class="post-list">
+          {yearPosts.map(post => (
+            <li>
+              <a href={`/blog/${post.id}/`}>
+                {post.data.image && (
+                  <img
+                    src={post.data.image.url}
+                    alt={post.data.image.alt || post.data.title}
+                    class="thumb"
+                    loading="lazy"
+                  />
+                )}
+                <span class="post-title">{post.data.title}</span>
+                <span class="post-date">{fmtDate(post.data.pubDate)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+        <p><a href="/">&larr; トップページへ戻る</a></p>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  main {
+    width: 100%;
+    max-width: 860px;
+    box-sizing: border-box;
+    margin: 0 auto;
+    padding: 2em 1em 4em;
+  }
+  .circle-info {
+    font-size: 1rem;
+    line-height: 1.8;
+  }
+  h2 {
+    font-size: 1.4rem;
+    border-left: 4px solid var(--accent);
+    padding-left: 0.6em;
+    margin: 2em 0 0.8em;
+  }
+
+  /* 年別ナビ */
+  .year-nav {
+    display: flex;
+    gap: 0.5em;
+    flex-wrap: wrap;
+    margin-bottom: 1em;
+  }
+  .year-link {
+    padding: 0.3em 0.6em;
+    font-size: 0.95rem;
+    color: #555;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+  }
+  .year-link:hover {
+    color: var(--accent);
+  }
+  .year-link.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+    font-weight: 600;
+  }
+
+  /* テーマ一覧 */
+  .post-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .post-list li {
+    border-bottom: 1px solid #e5e7ef;
+  }
+  .post-list li a {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    padding: 0.7em 0.3em;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s;
+  }
+  .post-list li a:hover {
+    background: #f5f7ff;
+  }
+  .thumb {
+    width: 80px;
+    height: 54px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .post-title {
+    flex: 1;
+    font-size: 0.95rem;
+    color: #1a1a2e;
+  }
+  .post-date {
+    font-size: 0.82rem;
+    color: #888;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 600px) {
+    .thumb { width: 60px; height: 40px; }
+  }
+</style>
