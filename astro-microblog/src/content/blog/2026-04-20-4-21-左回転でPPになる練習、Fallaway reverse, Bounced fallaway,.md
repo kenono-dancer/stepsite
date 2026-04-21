@@ -5,7 +5,7 @@ description: "今回のテーマは左回転でPPになる練習です。Fallawa
 author: "itxdancer_step"
 tags: []
 image:
-  url: "/assets/images/2026/04/hatanodai.jpeg"
+  url: "/assets/images/2026/04/musashikoyama.jpeg"
   alt: "4/21 左回転でPPになる練習、Fallaway reverse, Bounced fallaway,"
 ---
 
@@ -30,5 +30,5 @@ Outside change, Tumble turn, Left whisk, Standing spin, Lunge, Throwaway overswa
 ## 今回の場所と時間
 
 [荏原第一区民集会所](/ebara-1/)
-サークルは 18:50〜20:10
+18:50〜20:10
 ※18:00開場、21:30頃退出予定
