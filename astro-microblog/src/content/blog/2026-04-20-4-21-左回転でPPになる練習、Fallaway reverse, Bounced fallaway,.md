@@ -29,6 +29,6 @@ Outside change, Tumble turn, Left whisk, Standing spin, Lunge, Throwaway overswa
 
 ## 今回の場所と時間
 
-[荏原第一区民集会所](/ebara-1/)
-18:50〜20:10
+[荏原第一区民集会所](/ebara-1/)<br>
+18:50〜20:10<br>
 ※18:00開場、21:30頃退出予定
