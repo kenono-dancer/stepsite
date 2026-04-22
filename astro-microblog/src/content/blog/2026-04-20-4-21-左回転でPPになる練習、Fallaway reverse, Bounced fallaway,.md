@@ -22,10 +22,10 @@ PPの形は、2人の足は90度に開き、腰は45度、鳩尾は0度（平行
 
 ## 練習用ステップ
 
-Waltz
-Bounced fallaway with weave ending, Fallaway reverse & slip pivot, Change of direction, Contra check, Ronde, Standing spin, Switch,
-Reverse pivot, Chasse to right, Outside change to PP, Hi hover,
-Outside change, Tumble turn, Left whisk, Standing spin, Lunge, Throwaway oversway
+Slow Foxtrot: 
+Bounced fallaway with weave ending, Fallaway reverse & slip pivot, Change of direction,
+ Chasse to right, Outside change to PP, Hi hover, 
+Back feather, Tumble turn, Left whisk, Standing spin, Lunge, Throwaway oversway
 
 ## 今回の場所と時間
 
