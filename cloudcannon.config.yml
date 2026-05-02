@@ -1,0 +1,18 @@
+paths:
+  static: public
+  uploads: public/uploads
+timezone: Asia/Tokyo
+markdown:
+  engine: commonmark
+  options:
+    gfm: true
+collections_config:
+  astro_microblog_blog:
+    path: astro-microblog/src/content/blog
+    icon: gastroenterology
+  astro_microblog_components:
+    path: astro-microblog/src/components
+    icon: settop_component
+  astro_microblog_pages:
+    path: astro-microblog/src/pages
+    icon: gastroenterology
