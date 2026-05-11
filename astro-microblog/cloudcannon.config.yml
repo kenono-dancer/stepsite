@@ -1,17 +1,16 @@
-# astro-microblog/cloudcannon.config.yml の内容
 source: astro-microblog
-output: astro-microblog/dist
+output: dist
 
-# 編集画面の設定
 editor:
   default_item_editor: visual
 
-# サイドメニュー（コレクション）の定義
 collections_config:
   pages:
     path: src/pages
     output: true
     name: ページ編集
+    # ここが重要！.astroファイルからデータを抜き出す設定です
+    parser: front-matter
     config:
       allowed_views: [visual, data]
   blog:
