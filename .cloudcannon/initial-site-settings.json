@@ -1,0 +1,14 @@
+{
+  "ssg": "astro",
+  "mode": "hosted",
+  "build": {
+    "hugoVersion": "0.157.0",
+    "rubyVersion": "3.4.8",
+    "nodeVersion": "22",
+    "denoVersion": "2.7.1",
+    "output_path": "astro-microblog/dist",
+    "build_command": "cd /usr/local/__site/src/astro-microblog && npm run build",
+    "install_command": "cd /usr/local/__site/src/astro-microblog && npm install",
+    "preserved_paths": "astro-microblog/cloudcannon.config.yml"
+  }
+}
