@@ -1,0 +1,16 @@
+# cloudcannon.config.yml
+source: astro-microblog
+output: astro-microblog/dist
+
+# エディタの設定
+editor:
+  default_item_editor: visual
+
+# データの場所を教える（ここを追加するとSIDEBARが出ます）
+collections_config:
+  pages:
+    path: src/pages
+    output: true
+    # ページ編集時にサイドバーに表示する項目を自動生成
+    config:
+      url: /[slug]/
