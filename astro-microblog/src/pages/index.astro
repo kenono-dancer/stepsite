@@ -5,20 +5,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
 
-// --- CloudCannon編集用データ ---
-const pageData = {
-  description: "競技志向社交ダンスサークルは、<strong>東京都品川区</strong>を中心に活動している<strong>スタンダード専門社交ダンスサークル</strong>です。",
-  schedule_note: "第1,3,5火曜日 18:50〜20:10<br>17:50open　21:00 close / 前後練習できます。",
-  events: [
-    { date: "4/7（火）", location: "荏原第一区民集会所", link: "/ebara-1/", is_note: false },
-    { date: "4/21（火）", location: "荏原第一区民集会所", link: "/ebara-1/", is_note: false },
-    { date: "※5/5は施設の都合によりお休みになります", location: "", link: "", is_note: true },
-    { date: "5/19（火）", location: "荏原第一区民集会所", link: "/ebara-1/", is_note: false },
-    { date: "6/2（火）", location: "荏原第二区民集会所", link: "/ebara-2/", is_note: false },
-    { date: "6/16（火）", location: "荏原第二区民集会所", link: "/ebara-2/", is_note: false },
-    { date: "7/7（火）", location: "荏原第一区民集会所", link: "/ebara-1/", is_note: false },
-  ]
-};
+import pageData from '../data/index-page.json';
 
 const posts = (await getCollection('blog')).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()

@@ -1,0 +1,52 @@
+backend:
+  name: github
+  repo: kenono-dancer/stepsite
+  branch: main
+  base_url: https://step.itxdancer.com
+  auth_endpoint: api/auth
+
+media_folder: "astro-microblog/public/assets/images"
+public_folder: "/assets/images"
+
+collections:
+  - name: "pages"
+    label: "固定ページ"
+    files:
+      - file: "astro-microblog/src/data/index-page.json"
+        label: "トップページ共通情報"
+        name: "index"
+        fields:
+          - { label: "紹介文", name: "description", widget: "text" }
+          - { label: "開催日時メモ", name: "schedule_note", widget: "string" }
+          - name: "events"
+            label: "イベントスケジュール一覧"
+            widget: "list"
+            summary: "{{fields.date}} - {{fields.location}}"
+            fields:
+              - { label: "日時・備考", name: "date", widget: "string" }
+              - { label: "場所", name: "location", widget: "string", required: false }
+              - { label: "リンク先パス", name: "link", widget: "string", required: false }
+              - { label: "お知らせのみか（場所・リンクを非表示）", name: "is_note", widget: "boolean", default: false }
+
+  - name: "blog"
+    label: "ブログ記事"
+    folder: "astro-microblog/src/content/blog"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { label: "タイトル", name: "title", widget: "string" }
+      - { label: "公開日", name: "pubDate", widget: "datetime" }
+      - { label: "説明文", name: "description", widget: "text", required: false, default: "" }
+      - { label: "作成者", name: "author", widget: "string", required: false, default: "" }
+      - { label: "タグ", name: "tags", widget: "list", required: false, default: [] }
+      - { label: "更新日", name: "updatedDate", widget: "datetime", required: false }
+      - label: "アイキャッチ画像"
+        name: "image"
+        widget: "object"
+        required: false
+        fields:
+          - { label: "画像", name: "url", widget: "image" }
+          - { label: "代替テキスト", name: "alt", widget: "string", required: false, default: "" }
+      - { label: "本文", name: "body", widget: "markdown" }
