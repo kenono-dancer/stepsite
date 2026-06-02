@@ -1,6 +1,8 @@
 # itxdancer.com/step → step.itxdancer.com リダイレクト
 https://itxdancer.com/step/*  https://step.itxdancer.com/:splat  301
 
+/blog/5-19-大きく動く/  /blog/2026-05-19-大きく動く/  301
+
 /step/?p=9  /ワルツ-初級中級ステップ/  301
 /step/?p=27  /タンゴ-ステップ前半-1-8/  301
 /step/?p=58  /ワルツ-競技志向社交ダンスサークル-1-15-ローテーシ/  301
